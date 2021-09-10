@@ -1,23 +1,43 @@
 import logo from './logo.svg';
 import './App.css';
-
+import { Link, Switch, Route } from 'react-router-dom';
+import countries from './countries.json';
+import Home from './components/Home';
+import CountryDetail from './components/CountryDetail';
 function App() {
+  const CountryList = () => {
+    return countries.map((country) => {
+      return (
+        <Link key={country.cca3} to={`/country/${country.cca3}`}>
+          <li>
+            {country.flag} {country.name.common}
+          </li>
+        </Link>
+      );
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">WikiCountries</Link>
+          </li>
+        </ul>
+      </nav>
+      <ul id="countrylist">
+        <CountryList />
+      </ul>
+
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route
+          exact
+          path="/country/:cca3OfTheCountry"
+          component={CountryDetail}
+        />
+      </Switch>
     </div>
   );
 }
